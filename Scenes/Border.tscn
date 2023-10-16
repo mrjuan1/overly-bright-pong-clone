@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx5y5su7symf5"]
+
+[ext_resource type="BoxMesh" uid="uid://cmwbw2ig4htu6" path="res://Resources/BorderMesh.tres" id="1_1n8an"]
+[ext_resource type="Script" path="res://Scripts/Border.gd" id="1_7sx5r"]
+[ext_resource type="Shape3D" uid="uid://0rtmanoq18pv" path="res://Resources/BorderCollision.tres" id="2_r08sr"]
+
+[node name="Border" type="StaticBody3D"]
+script = ExtResource("1_7sx5r")
+
+[node name="BorderMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_1n8an")
+
+[node name="BorderCollision" type="CollisionShape3D" parent="."]
+shape = ExtResource("2_r08sr")

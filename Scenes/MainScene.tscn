@@ -1,0 +1,209 @@
+[gd_scene load_steps=19 format=3 uid="uid://ckst3sicea4oh"]
+
+[ext_resource type="Script" path="res://Scripts/MainScene.gd" id="1_vnb1h"]
+[ext_resource type="PackedScene" uid="uid://cx5y5su7symf5" path="res://Scenes/Border.tscn" id="2_80ysy"]
+[ext_resource type="PackedScene" uid="uid://cdo2d8sh2ie6j" path="res://Scenes/Ball.tscn" id="3_mkejf"]
+[ext_resource type="PackedScene" uid="uid://ct6hhh3kjy4go" path="res://Scenes/Platform.tscn" id="4_8qtod"]
+[ext_resource type="LabelSettings" uid="uid://e2i5mcmn3gg0" path="res://Resources/ScoreFontSettings.tres" id="5_en7y6"]
+
+[sub_resource type="Gradient" id="Gradient_k2ga6"]
+offsets = PackedFloat32Array(0.551402, 0.850467)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vdw3y"]
+seed = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jv458"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_k2ga6")
+noise = SubResource("FastNoiseLite_vdw3y")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pa2wl"]
+sky_top_color = Color(0.243137, 0.486275, 0.701961, 1)
+sky_horizon_color = Color(0.64625, 0.6635, 0.6875, 1)
+sky_curve = 0.0652913
+sky_cover = SubResource("NoiseTexture2D_jv458")
+ground_bottom_color = Color(0.196078, 0.301961, 0.380392, 1)
+ground_horizon_color = Color(0.64625, 0.6635, 0.6875, 1)
+ground_curve = 0.0585635
+
+[sub_resource type="Sky" id="Sky_rp5ro"]
+sky_material = SubResource("ProceduralSkyMaterial_pa2wl")
+
+[sub_resource type="Environment" id="Environment_o4e7q"]
+background_mode = 2
+sky = SubResource("Sky_rp5ro")
+tonemap_mode = 2
+ssr_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+glow_intensity = 1.0
+glow_strength = 1.5
+fog_enabled = true
+fog_light_color = Color(0.517647, 0.552941, 0.607843, 1)
+fog_sky_affect = 0.6
+fog_height_density = 0.25
+adjustment_enabled = true
+adjustment_brightness = 1.1
+adjustment_contrast = 1.2
+adjustment_saturation = 1.5
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5mvyi"]
+auto_exposure_enabled = true
+auto_exposure_min_sensitivity = 400.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fnrfx"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.360784)
+metallic = 0.5
+metallic_specular = 1.0
+roughness = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_xacl4"]
+material = SubResource("StandardMaterial3D_fnrfx")
+size = Vector2(5, 5)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_g3tja"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qo7da"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_g3tja")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nit8y"]
+albedo_color = Color(0.309804, 0.760784, 0.819608, 1)
+metallic = 1.0
+roughness = 0.0
+normal_enabled = true
+normal_scale = 0.1
+normal_texture = SubResource("NoiseTexture2D_qo7da")
+uv1_scale = Vector3(0.05, 0.05, 0.05)
+uv1_triplanar = true
+texture_filter = 5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rw1ut"]
+material = SubResource("StandardMaterial3D_nit8y")
+size = Vector2(1000, 1000)
+
+[node name="MainScene" type="Node3D"]
+script = ExtResource("1_vnb1h")
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, 0.433013, -0.25, 0, 0.5, 0.866025, 0.5, -0.75, 0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
+environment = SubResource("Environment_o4e7q")
+camera_attributes = SubResource("CameraAttributesPractical_5mvyi")
+
+[node name="Camera" type="Camera3D" parent="."]
+
+[node name="Board" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+mesh = SubResource("QuadMesh_xacl4")
+
+[node name="TopBorder" parent="Board" instance=ExtResource("2_80ysy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, 0.25)
+bounce = true
+
+[node name="BottomBorder" parent="Board" instance=ExtResource("2_80ysy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.55, 0.25)
+bounce = true
+
+[node name="LeftBorder" parent="Board" instance=ExtResource("2_80ysy")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -2.55, 0, 0.25)
+
+[node name="RightBorder" parent="Board" instance=ExtResource("2_80ysy")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 2.55, 0, 0.25)
+
+[node name="Ball" parent="." instance=ExtResource("3_mkejf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.75)
+
+[node name="PlayerPlatform" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("4_8qtod")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0, -4.75)
+is_player = true
+ball = NodePath("../Ball")
+pc_lerp_speed = 2.5
+
+[node name="PCPlatform" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("4_8qtod")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 0, -4.75)
+ball = NodePath("../Ball")
+pc_lerp_speed = 2.5
+
+[node name="WaterMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+mesh = SubResource("PlaneMesh_rw1ut")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FPS" type="Label" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 26.0
+grow_horizontal = 0
+text = "FPS"
+
+[node name="Timer" type="Timer" parent="UI/FPS"]
+unique_name_in_owner = true
+
+[node name="Scores" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 125.0
+offset_top = -150.0
+offset_right = -125.0
+offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftScore" type="Label" parent="UI/Scores"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -70.0
+offset_right = 57.0
+offset_bottom = 70.0
+grow_vertical = 2
+text = "0"
+label_settings = ExtResource("5_en7y6")
+
+[node name="RightScore" type="Label" parent="UI/Scores"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -70.0
+offset_bottom = 70.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+label_settings = ExtResource("5_en7y6")
+
+[connection signal="timeout" from="UI/FPS/Timer" to="." method="_on_timer_timeout"]

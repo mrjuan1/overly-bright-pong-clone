@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdo2d8sh2ie6j"]
+
+[ext_resource type="Script" path="res://Scripts/Ball.gd" id="1_mc40u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixoye"]
+albedo_color = Color(0.682353, 0.611765, 1, 1)
+metallic = 0.5
+metallic_specular = 1.0
+roughness = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_dpjtn"]
+material = SubResource("StandardMaterial3D_ixoye")
+radius = 0.25
+height = 0.5
+radial_segments = 32
+rings = 16
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nre7j"]
+radius = 0.25
+
+[node name="Ball" type="CharacterBody3D"]
+script = ExtResource("1_mc40u")
+
+[node name="BallMesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("SphereMesh_dpjtn")
+
+[node name="BallCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_nre7j")

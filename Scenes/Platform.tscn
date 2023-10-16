@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct6hhh3kjy4go"]
+
+[ext_resource type="Script" path="res://Scripts/Platform.gd" id="1_ri2iy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oq74n"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c5vpf"]
+material = SubResource("StandardMaterial3D_oq74n")
+size = Vector3(0.1, 1, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7x2k3"]
+size = Vector3(0.1, 1, 0.25)
+
+[node name="Platform" type="CharacterBody3D"]
+script = ExtResource("1_ri2iy")
+
+[node name="PlatformMesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("BoxMesh_c5vpf")
+
+[node name="PlatformCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_7x2k3")
