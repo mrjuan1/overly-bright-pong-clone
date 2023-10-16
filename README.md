@@ -1,6 +1,6 @@
 # Overly Bright Pong Clone
 
-![Icon](icon.png)
+![Screenshot](screenshot.jpg)
 
 A relatively unimpressive Pong clone with blindingly bright visuals. Meant to be a small project for learning the basics of [Godot](https://godotengine.org).
 
