@@ -26,6 +26,9 @@ formats/gzip/compression_level=9
 [display]
 
 window/handheld/orientation=6
+window/size/viewport_width.web=800
+window/size/viewport_height.web=480
+window/size/borderless.web=true
 
 [editor]
 
@@ -86,3 +89,5 @@ environment/subsurface_scattering/subsurface_scattering_quality=2
 anti_aliasing/quality/screen_space_aa=1
 anti_aliasing/quality/use_debanding=true
 lights_and_shadows/positional_shadow/atlas_size=2048
+scaling_3d/mode.web=0
+scaling_3d/scale.web=1.0
